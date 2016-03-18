@@ -1,0 +1,87 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <link type="text/css" rel="stylesheet" href="../../rickshaw/src/css/graph.css">
+    <link type="text/css" rel="stylesheet" href="../../rickshaw/src/css/detail.css">
+    <link type="text/css" rel="stylesheet" href="../../rickshaw/examples/css/lines.css">
+
+    <script src="../../rickshaw/vendor/d3.v3.js"></script>
+    <script src="../../rickshaw/rickshaw.js"></script>
+    <style type="text/css">
+      .graph-container, .main-container{
+        float: left;
+      }
+      #axis0, #axis1, #chart{
+        display: inline-block;
+      }
+      #axis0, #axis1{
+        height: 250px;
+        width: 40px;
+      }
+      #axis0 svg.rickshaw_graph, #axis1 svg.rickshaw_graph{
+        top: 0!important;
+      }
+      #chart {
+        height: 100px;
+        width: 300px;
+      }
+      .main-container{
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div class="graph-container">
+        <div id="chart"></div>
+      </div>
+      <div class="main-container">
+        <p>This report shows a time series of random values.</p>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+    var scales = [];
+    var graph = new Rickshaw.Graph({
+      element: document.querySelector("#chart"),
+      renderer: 'bar',
+      series: [{
+        data: [ { x: 0, y: 40 }, { x: 1, y: 49 }, { x: 2, y: 47 }, { x: 3, y: 44 }, { x: 4, y: 50 },
+                { x: 5, y: 32 }, { x: 6, y: 49 }, { x: 7, y: 47 }, { x: 8, y: 60 }, { x: 9, y: 50 },
+                { x: 10, y: 40 }, { x: 11, y: 33 }, { x: 12, y: 47 }, { x: 13, y: 44 }, { x: 14, y: 25 },
+              ],
+        color: 'steelblue',
+        scale: scales[0]
+      }]
+    });
+
+    new Rickshaw.Graph.Axis.Y.Scaled({
+      element: document.getElementById('axis0'),
+      graph: graph,
+      orientation: 'left',
+      scale: scales[0],
+      tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+    });
+
+    new Rickshaw.Graph.Axis.Y.Scaled({
+      element: document.getElementById('axis1'),
+      graph: graph,
+      grid: false,
+      orientation: 'right',
+      scale: scales[1],
+      tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+    });
+
+    new Rickshaw.Graph.Axis.Time({
+      graph: graph
+    });
+
+    new Rickshaw.Graph.HoverDetail({
+      graph: graph
+    });
+
+    graph.render();
+
+  </script>
+</html>
