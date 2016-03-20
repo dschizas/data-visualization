@@ -11,19 +11,23 @@
       .graph-container, .main-container{
         float: left;
       }
-      #axis0, #axis1, #chart{
+      #y_axis, #chart{
         display: inline-block;
       }
-      #axis0, #axis1{
-        height: 250px;
+      #y_axis{
+        height: 100px;
         width: 40px;
       }
-      #axis0 svg.rickshaw_graph, #axis1 svg.rickshaw_graph{
+      #y_axis svg.rickshaw_graph, #x_axis svg.rickshaw_graph{
         top: 0!important;
       }
       #chart {
         height: 100px;
         width: 300px;
+      }
+      #x_axis{
+        width: 300px;
+        margin-left: 42px;
       }
       .main-container{
         width: 100%;
@@ -33,7 +37,9 @@
   <body>
     <div id="content">
       <div class="graph-container">
+        <div id="y_axis"></div>
         <div id="chart"></div>
+        <div id="x_axis"></div>
       </div>
       <div class="main-container">
         <p>This report shows a time series of random values.</p>
@@ -52,34 +58,30 @@
                 { x: 10, y: 40 }, { x: 11, y: 33 }, { x: 12, y: 47 }, { x: 13, y: 44 }, { x: 14, y: 25 },
               ],
         color: 'steelblue',
-        scale: scales[0]
+        name: 'Price'
+        // scale: scales[0]
       }]
     });
-
-    new Rickshaw.Graph.Axis.Y.Scaled({
-      element: document.getElementById('axis0'),
+    
+    var hoverDetail = new Rickshaw.Graph.HoverDetail( {
       graph: graph,
-      orientation: 'left',
-      scale: scales[0],
-      tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+      yFormatter: function(y) { return "€" + Math.floor(y) }
     });
 
-    new Rickshaw.Graph.Axis.Y.Scaled({
-      element: document.getElementById('axis1'),
-      graph: graph,
-      grid: false,
-      orientation: 'right',
-      scale: scales[1],
-      tickFormat: Rickshaw.Fixtures.Number.formatKMBT
-    });
+    var y_ticks = new Rickshaw.Graph.Axis.Y( {
+	     graph: graph,
+	     orientation: 'left',
+       tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+       element: document.getElementById('y_axis')
+    } );
 
-    new Rickshaw.Graph.Axis.Time({
-      graph: graph
-    });
-
-    new Rickshaw.Graph.HoverDetail({
-      graph: graph
-    });
+    var x_ticks = new Rickshaw.Graph.Axis.X( {
+	     graph: graph,
+	     orientation: 'bottom',
+       tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+       pixelsPerTick: 20,
+       element: document.getElementById('x_axis')
+    } );
 
     graph.render();
 
