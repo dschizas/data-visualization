@@ -2100,17 +2100,17 @@ Rickshaw.Graph.HoverDetail = Rickshaw.Class.create({
 				.domain([data[0].x, data.slice(-1)[0].x])
 				.range([0, data.length - 1]);
 
-			var approximateIndex = Math.round(domainIndexScale(domainX));
-			if (approximateIndex == data.length - 1) approximateIndex--;
+			var approximateIndex = Math.floor(domainIndexScale(domainX));
+			if (approximateIndex == data.length) approximateIndex--;
 
 			var dataIndex = Math.min(approximateIndex || 0, data.length - 1);
 
-			for (var i = approximateIndex; i < data.length - 1;) {
+			for (var i = approximateIndex; i < data.length;) {
 
 				if (!data[i] || !data[i + 1]) break;
 
 				if (data[i].x <= domainX && data[i + 1].x > domainX) {
-					dataIndex = Math.abs(domainX - data[i].x) < Math.abs(domainX - data[i + 1].x) ? i : i + 1;
+					dataIndex = data[i].x;
 					break;
 				}
 
