@@ -1,0 +1,93 @@
+<!doctype>
+<head>
+    <link type="text/css" rel="stylesheet" href="../../rickshaw/src/css/graph.css">
+    <link type="text/css" rel="stylesheet" href="../../rickshaw/src/css/detail.css">
+    <link type="text/css" rel="stylesheet" href="../../rickshaw/examples/css/lines.css">
+
+    <script src="../../rickshaw/vendor/d3.v3.js"></script>
+    <script src="../../rickshaw/rickshaw.js"></script>
+    <style type="text/css">
+      .graph-container, .main-container{
+        float: left;
+      }
+      #axis0, #axis1, #chart{
+        display: inline-block;
+      }
+      #axis0, #axis1{
+        height: 250px;
+        width: 40px;
+      }
+      #axis0 svg.rickshaw_graph, #axis1 svg.rickshaw_graph{
+        top: 0!important;
+      }
+      #chart {
+        height: 250px;
+        width: 1000px;
+      }
+      .main-container{
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div class="graph-container">
+        <div id="axis0"></div>
+        <div id="chart"></div>
+        <div id="axis1"></div>
+      </div>
+      <div class="main-container">
+        <p>This report shows a time series of fixed values.</p>
+      </div>
+    </div>
+  </body>
+
+<script>
+var data = [{ x: 1910, y: 92228531 }, 
+            { x: 1920, y: 106021568 }, 
+            { x: 1930, y: 123202660 }, 
+            { x: 1940, y: 132165129 }, 
+            { x: 1950, y: 151325798 }, 
+            { x: 1960, y: 179323175 }, 
+            { x: 1970, y: 203211926 }, 
+            { x: 1980, y: 226545805 }, 
+            { x: 1990, y: 248709873 }, 
+            { x: 2000, y: 281421906 }, 
+            { x: 2010, y: 308745538 } ];
+
+var data2 = [ { x: -1893456000, y: 92228531 },
+              { x: -1577923200, y: 106021568 }, 
+              { x: -1262304000, y: 123202660 }, 
+              { x: -946771200, y: 132165129 }, 
+              { x: -631152000, y: 151325798 }, 
+              { x: -315619200, y: 179323175 }, 
+              { x: 0, y: 203211926 }, 
+              { x: 315532800, y: 226545805 }, 
+              { x: 631152000, y: 248709873 }, 
+              { x: 946684800, y: 281421906 }, 
+              { x: 1262304000, y: 308745538 }];
+
+var graph = new Rickshaw.Graph( {
+        element: document.querySelector("#chart"),
+        width: 540,
+        height: 240,
+        series: [ {
+                data: data2, 
+                color: 'steelblue'
+        } ]
+} );
+
+var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+//  Correct Axis for "var data"
+//  var x_axis = new Rickshaw.Graph.Axis.X( { graph: graph } );
+
+var y_axis = new Rickshaw.Graph.Axis.Y( {
+        graph: graph,
+        orientation: 'left',
+        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+        element: document.getElementById('axis0'),
+} );
+
+graph.render();
+</script>
+</html>
